@@ -40,12 +40,28 @@ ASGI_APPLICATION = 'wfmbackend.asgi.application'
 
 MONGODB_DATABASES = {
     'default': {
-        'name': 'remotecraft',
+        'name': 'Remoteconnect',
         'host': 'localhost',
         'port': 27017,
         "tz_aware": True,
     },
 }
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 SESSION_ENGINE = 'django_mongoengine.sessions'
 SESSION_SERIALIZER = 'django_mongoengine.sessions.BSONSerializer'
