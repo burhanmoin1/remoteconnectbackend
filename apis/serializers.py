@@ -1,10 +1,10 @@
 from rest_framework_mongoengine import serializers
 from django.contrib.auth.hashers import make_password
-from .models import Freelancer, Client, BaseUser
+from .models import Freelancer, Client
 
-class BaseUserSerializer(serializers.DocumentSerializer):
+class FreelancerSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = BaseUser
+        model = Freelancer
         fields = '__all__'
 
     def create(self, validated_data):
@@ -12,10 +12,12 @@ class BaseUserSerializer(serializers.DocumentSerializer):
         validated_data['password'] = make_password(validated_data['password'])
         return super().create(validated_data)
 
-class FreelancerSerializer(BaseUserSerializer):
-    class Meta(BaseUserSerializer.Meta):
-        model = Freelancer
-
-class ClientSerializer(BaseUserSerializer):
-    class Meta(BaseUserSerializer.Meta):
+class ClientSerializer(serializers.DocumentSerializer):
+    class Meta:
         model = Client
+        fields = '__all__'
+
+    def create(self, validated_data):
+        # Hash the password before saving the instance
+        validated_data['password'] = make_password(validated_data['password'])
+        return super().create(validated_data)
