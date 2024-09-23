@@ -7,21 +7,23 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.100.60']
 
 #required apps
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'apis',
     'rest_framework',
     'corsheaders',
     "django_mongoengine",
+    'channels',
 ]
 
 #cors for frontend
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    'http://192.168.100.60:3000'
 ]
 
 MIDDLEWARE = [
@@ -35,7 +37,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'wfmbackend.urls'
 
-WSGI_APPLICATION = 'wfmbackend.wsgi.application'
+#WSGI_APPLICATION = 'wfmbackend.wsgi.application'
+
 ASGI_APPLICATION = 'wfmbackend.asgi.application'
 
 MONGODB_DATABASES = {
@@ -46,6 +49,16 @@ MONGODB_DATABASES = {
         "tz_aware": True,
     },
 }
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('localhost', 6379)],
+        },
+    },
+}
+
 
 TEMPLATES = [
     {
